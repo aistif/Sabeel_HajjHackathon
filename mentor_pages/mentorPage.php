@@ -1,7 +1,7 @@
-<?php include '../db/db_connect.php';
-      //include '../db/config.php';
+<?php session_start();
+      include '../db/db_connect.php';
+      include '../db/config.php';
       include 'header.php';
-      $cnt;
       ?>
 
 <!--
@@ -11,82 +11,78 @@ Mentor's main page.
             <form id="addNewRef" name="addNewRef" action="addRef.php" method="POST">
                 <input id="newSmartRef" type="submit" value="إضافة ثلاجات"/>
             </form>
-            <span>العدد الإجمالي للثلاجات: <?= $cnt; ?></span><br/>
-            <?php $getSmartRef = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM `smartRef` order by `status` ASC"); 
+            <?php
+                  $count = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM `smartRef`");
+                  $getCount = mysqli_num_rows($count);
+            ?>
+            <span>العدد الإجمالي للثلاجات: <?= $getCount; ?></span><br/>
+            <table class="table table-hover">
+            <tbody>
+            <?php $getSmartRef = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM `smartRef` ORDER BY `status` DESC"); 
                 $cnt = 1;
                 while($res1 = mysqli_fetch_array($getSmartRef)) {  ?>
                     <?php $refStatus = $res1["status"];
                         if($refStatus != "ommitted") {
                     ?>
-                    <div id="ref<?php echo $res1["SRID"]; ?>">
-                        <a onclick="toggleThis(description<?= $cnt ?>);">
-                            <span class="numbering"><?= $cnt; ?></span>
-                            <p id="refName"><?php echo $res1["name"]; ?></p>
-                            <?php if($refStatus == "online") { ?>
-                                <img class="refStatus" url="green.png" alt="<?php $refStatus ?>"/>
-                                <script>document.getElementById("maintReqBtn<?= $cnt ?>").disabled = true;</script>
-                            <?php } elseif ($refStatus == "problem") { ?>
-                                <img class="refStatus" url="red.png" alt="<?php $refStatus ?>"/>
-                            <?php } elseif ($refStatus == "offline") { ?>
-                                <img class="refStatus" url="gery.png" alt="<?php $refStatus ?>"/>
-                            <?php } ?>
-                            <div id="description<?= $cnt; ?>" style="display: none;">
-                                <label>IP -- </label>
-                                <span id="refIP<?= $cnt; ?>"><?= $res1["IP"]; ?></span>
-                                <br/>
-                                
-                                <label>درجة الحرارة --</label>
-                                <span id="refTemp<?= $cnt; ?>"><?= $res1["temp"]; ?></span>
-                                <br/>
-                                
-                                <label>ممتلئة؟ -- </label>
+                        <tr id="ref<?= $res1['SRID'] ?>" onclick="toggleThis('description1<?= $cnt ?>','description2<?= $cnt ?>','description3<?= $cnt ?>')">
+                            <td><span class="refreg"><image src="../img/Artboard 1.png" width="30" height="30"/></span></td>
+                            <td id="refName"><?= $res1["name"]; ?></td>
+                            <td><?php if($refStatus === "online") { ?>
+                                <img class="refStatus" src="../img/green.png" alt="<?php $refStatus ?>" width="10" height="10"/>
+                            <?php } elseif ($refStatus === "problem") { ?>
+                                <img class="refStatus" src="../img/red.png" alt="<?php $refStatus ?>" width="10" height="10"/>
+                            <?php } elseif ($refStatus === "offline") { ?>
+                                <img class="refStatus" src="../img/grey.png" alt="<?php $refStatus ?>" width="10" height="10"/>
+                            <?php } ?><td>
+                            </tr>
+                            <tr id="description1<?=$cnt?>" style="display: none;">
+                                <td><label>IP -- </label>
+                                    <span id="refIP<?=$cnt?>"><?= $res1["IP"]; ?></span></td>
+
+                                <td><label>درجة الحرارة --</label>
+                                    <span id="refTemp<?=$cnt?>"><?= $res1["temp"]; ?></span></td>
+
+                                <td><label>ممتلئة؟ -- </label>
                                 <?php if($res1["isFull"] == 'y') { ?>
                                     <span>نعم</span>
                                 <?php } else { ?>
                                     <span>نعم</span>
-                                <?php } ?>
-                                <br/>
-                                
-                                <label>الموقع -- </label>
-                                <span id="refLoc<?= $cnt; ?>"><?= $res1["loc"]; ?></span>
-                                <br/>
-                                
-                                <label>النشاط -- </label>
-                                <span id="refActive<?= $cnt; ?>"><?= $res1["lastActive"]; ?></span>
-                                <br/>
-                                <?php $relatedRows = mysql_query("SELECT * FROM `refRows` WHERE `SRID` =".$res1["SRID"]);
+                                <?php } ?></td>
+                            </tr>
+                            <tr id="description2<?=$cnt?>" style="display: none;">
+                                <td><label>الموقع -- </label>
+                                    <span id="refLoc<?= $cnt; ?>"><?= $res1["loc"]; ?></span></td>
+
+                                <td><label>النشاط -- </label>
+                                    <span id="refActive<?= $cnt; ?>"><?= $res1["lastActive"]; ?></span></td>
+
+                                <?php $relatedRows = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM `refRows` WHERE `SRID` =".$res1['SRID']);
                                 $cntR = 0;
                                 $expR = 0;
                                 while ($refRow = mysqli_fetch_array($relatedRows)) {
                                     if($refRow["isFull"]=='n'){
                                         $cntR++;
                                     }
-                                    
-                                    $dt = new DateTime($refRow["timeAdded"]);
-                                    if($dt->diff(time())>=6){
+
+                                    $numDays = abs($refRow["timeAdded"] - time())/60/60/24;
+                                    if($numDays==6){
                                         $expR++;
                                     }
                                 } ?>
-                                <label>عدد الأرفف الفارغة -- </label>
+                                <td><label>عدد الأرفف الفارغة -- </label>
                                 <span id="refِEmptyR<?= $cnt; ?>">
                                     <?= $cntR; ?>
-                                </span>
-                                <br/>
-                                
-                                <label>الأرفف منتهية الصلاحية -- </label>
+                                </span></td>
+                            </tr>
+                            <tr id="description3<?=$cnt?>" style="display: none;">
+                                <td><label>الأرفف منتهية الصلاحية -- </label>
                                 <span id="refExpiredR<?= $cnt; ?>">
                                     <?= $expR; ?>
-                                </span>
-                                <br/>
-                                <form id="maintenanceReq" name="maintenanceReq" method="POST" action="maintRequest.php">
-                                    <input id="maintReqBtn<?= $cnt ?>" type="submit" value="طلب صيانة"/> 
-                                </form>
-                            </div>
-                        </a>
-                    </div>
-                        <?php } else {
-                            continue;
-                        }
+                                </span></td>
+                            </tr>
+                        <?php }
                     $cnt++;
                 } ?>
-<?php include "footer.html"; ?>
+            </tbody>
+            </table>
+<?php include "../footer.html"; ?>

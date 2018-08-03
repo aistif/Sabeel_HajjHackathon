@@ -40,10 +40,14 @@
               <div class="nav-collapse collapse">
                 <ul class="nav">
                   <li class="<?php echo (strpos($str, 'index.php') == true ? "active" : "");?>"><a href="index.php">الرئيسية</a></li>
-                  <li class="<?php echo (strpos($str, 'support.php') == true ? "active" : "");?>"><a href="support.php">الدعم الفني</a></li>
-                  <li class="<?php echo (strpos($str, 'contactus.php') == true ? "active" : "");?>"><a href="contactus.php">اتصل بنا</a></li>
+                  <li class="<?php echo (strpos($str, 'support.php') == true ? "active" : "");?>"><a href="">الدعم الفني</a></li>
+                  <li class="<?php echo (strpos($str, 'contactus.php') == true ? "active" : "");?>"><a href="">اتصل بنا</a></li>
                 </ul>
               </div><!--/.nav-collapse -->
             </div>
           </div>
         </div>
+        <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span9">
+          <div class="hero-unit" align="center">

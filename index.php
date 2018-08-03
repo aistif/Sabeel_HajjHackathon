@@ -1,33 +1,33 @@
 <?php session_start();
-      include "db/db_connect.php";
+      include 'db/db_connect.php';
       include "header.php";
-            if(isset($_POST['username'])) {
+            if(!empty($_POST["username"])) {
                 $username = trim($_POST["username"]) ;
                 $password = trim($_POST["password"]) ;
                 $password = md5($password) ;
 
-                $sql1 = @mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `username`,`type`, `pwd` FROM `users` WHERE `username` ='".$username."' AND `pwd`='".$password."'") or die(mysql_error());
-                $rows = @mysqli_num_rows($sql1);
-                $DATABASEUSERNAME = $rows[0];
-                $DATABASEPASSWORD = $rows[2];
-                $UserType = $rows[1];
+                $results = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM `users` WHERE `username`='".$username."' AND `pwd`='".$password."'");
+                $row = mysqli_fetch_array($results);
+                $DATABASEUSERNAME = $row['username'];
+                $DATABASEPASSWORD = $row['pwd'];
+                $UserType = $row['type'];
                 
-                if($rows==1) {
-                    $_SESSION['usename'] = $DATABASEUSERNAME;
+                if(!empty($UserType)) {
+                    $_SESSION['username'] = $DATABASEUSERNAME;
                     $_SESSION['timestamp'] = time();
-                    if($UserType == 'mentor') {
+
+                    if($UserType === "mentor") {
                         header("Location: mentor_pages/mentorPage.php");
-                    } elseif($UserType == "technician") {
+                    } elseif($UserType === "technician") {
                         header("Location: tech_pages/techPage.php");
-                    } elseif($UserType == "admin") {
+                    } elseif($UserType === "admin") {
                         header("Location: a_pages/adminPage.php");
                     } else {
-                        header("Location: mentor_pages/mentorPage.php");
                         //not of any type...
                     }
                         
                 } else { 
-                        unset( $_SESSION['usename']);
+                        $_SESSION['username'] = "";
                         ?>
                         <script type="text/javascript">
                                 alert("بيانات الدخول المدخلة غير صحيحة");
@@ -39,16 +39,19 @@
 <!--
 Login Page
 -->
-        <div>
-            <form name="login" action="index.php" enctype="application/x-www-form-urlencoded" method="POST"  onSubmit="return login_validator(this)">
+        <div class="login-cont">
+            <img src="img/Sabeel-Logo-White.png" class="logo">
+            <span class="div-login"></span>
+            <form name="login" action="index.php" method="POST" onSubmit="return login_validator(this)">
                 <label>اسم المستخدم: </label>
                 <input id="username" name="username" type="text"/>
-                
+                <br/>
                 <label>كلمة المرور:</label>
                 <input id="password" name="password" type="password"/>
-                
-                <input type="submit" class="" name="commit" value="دخول"/>
+                <br/>
+                <input type="submit" class="" name="commit" value="دخول" class="btn"/>
             </form>
+        </div>
             <?php include("footer.html");
             } 
         ?>

@@ -1,28 +1,48 @@
 
 function login_validator(login) {
-    if (document.getElementById("username").value == "") {
+    if (document.getElementById("username").value === "") {
             alert("ادخل اسم المستخدم");
             document.getElementById("username").focus();
             return (false);
     }
-    if (document.getElementById("password").value == "") {
+    if (document.getElementById("password").value === "") {
             alert("ادخل كلمة المرور");
             document.getElementById("password").focus();
             return (false);
     }
 }
 
-function toggleThis(eID) {
-    var details = document.getElementById("eID");
-    if (details.style.display === "none") {
-        details.style.display = "block";
+function toggleThis(dID1, dID2, dID3) {
+    var toggled = false;
+    if(toggled){
+        $(dID1).removeAttr("style").hide();
+        $(dID2).removeAttr("style").hide();
+        $(dID3).removeAttr("style").hide();
     } else {
-        details.style.display = "none";
+        $(dID1).show("slow");
+        $(dID2).show("slow");
+        $(dID3).show("slow");
+        toggled = true;
     }
 } 
 
 $(document).ready(function() {
-    $('addNewRef input[type=submit]').click(function() {
-        return confirm('تم العثور على ثلاجات جديدة، هل ترغب بإضافتها للقائمة؟');
+  $('#reportbtn').click(function() {
+    var reportBox = $(this).attr('href');
+    
+    $(reportBox).fadeIn(300);
+    
+    var popMargTop = ($(reportBox).height() + 24) / 2;
+    var popMargLeft = ($(reportBox).width() + 24) / 2; 
+    
+    $(reportBox).css({ 
+      'margin-top' : -popMargTop,
+       'margin-left' : -popMargLeft
     });
+
+    $('body').append('<div id="mask"></div>');
+    $('#mask').fadeIn(300);
+
+    return false;
+  });
 });

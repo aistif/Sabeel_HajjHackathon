@@ -6,31 +6,24 @@
         <meta name="author" content="">
 
         <!-- Le styles -->
-        <link href="style/bootstrap.css" rel="stylesheet">
-        <link href="style//bootstrap-responsive.css" rel="stylesheet">
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/jquery.plugin.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/jquery.js"></script>
+        <script src="../js/jquery.plugin.js" type="text/javascript"></script>
+        <script src="../js/sabeelJS.js" type="text/javascript"></script>
+        <link href="../style/bootstrap.css" rel="stylesheet">
+        <link href="../style/bootstrap-responsive.css" rel="stylesheet">
 
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
           <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script>
         <![endif]-->
-        
-        <script Language="JavaScript" src="js/sabeelJS.js"></script>
-     
-        <!-- Fav and touch icons
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="img/ico/favicon.png"> -->
     </head>
     <body>
 	<?php $str = $_SERVER['REQUEST_URI'];?>
         <div class="navbar navbar-inverse navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container-fluid">
+                <img src="../img/Sabeel-Logo-Green.png" width="90">
               <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -40,9 +33,13 @@
               <div class="nav-collapse collapse">
                 <ul class="nav">
                   <li class="<?php echo (strpos($str, 'index.php') == true ? "active" : "");?>"><a href="index.php">الرئيسية</a></li>
-                  <li><a href="logout.php">تسجيل خروج</a></li>
+                  <li><a href="../logout.php">تسجيل خروج</a></li>
                 </ul>
               </div><!--/.nav-collapse -->
             </div>
           </div>
         </div>
+        <div class="container-fluid">
+        <div class="row-fluid">
+        <div class="span9">
+          <div class="hero-unit-s" align="center">
